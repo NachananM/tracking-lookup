@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ตรวจสอบเลข Tracking — CPA Thailand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1A2744;
+      --blue:   #2756A8;
+      --sky:    #E8F0FB;
+      --gold:   #C8993A;
+      --white:  #FFFFFF;
+      --gray50: #F7F8FA;
+      --gray200:#E2E6EE;
+      --gray500:#8C96A8;
+      --gray800:#2D3748;
+      --red:    #D94040;
+      --green:  #1E8A5E;
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--gray50);
+      color: var(--gray800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header bar ── */
+    header {
+      background: var(--navy);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-badge {
+      background: var(--gold);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    header span {
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      font-weight: 300;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 100%);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    .hero-label {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      letter-spacing: 2px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(22px, 5vw, 32px);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    /* ── Card ── */
+    .card-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+      flex: 1;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+      width: 100%;
+      max-width: 480px;
+      padding: 32px 28px;
+    }
+
+    /* ── Form ── */
+    .field { margin-bottom: 20px; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+    label .sub {
+      font-weight: 300;
+      color: var(--gray500);
+      font-size: 12px;
+      margin-left: 4px;
+    }
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--gray200);
+      border-radius: 10px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 15px;
+      color: var(--gray800);
+      background: var(--white);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type="text"]::placeholder { color: var(--gray500); font-size: 14px; }
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(39,86,168,0.12);
+    }
+    input[type="text"].error,
+    input[type="date"].error {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(217,64,64,0.10);
+    }
+    .field-hint {
+      font-size: 11.5px;
+      color: var(--gray500);
+      margin-top: 5px;
+    }
+
+    /* ── Button ── */
+    .btn-search {
+      width: 100%;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.1s;
+      margin-top: 4px;
+      position: relative;
+    }
+    .btn-search:hover { background: #1F449B; }
+    .btn-search:active { transform: scale(0.98); }
+    .btn-search:disabled { background: var(--gray200); color: var(--gray500); cursor: not-allowed; transform: none; }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+    }
+    .btn-search.loading .spinner { display: block; }
+    @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+    /* ── Result ── */
+    #result { margin-top: 24px; display: none; }
+
+    .result-success {
+      background: #EDF7F2;
+      border: 1.5px solid #A8DBCA;
+      border-radius: 12px;
+      padding: 24px 22px;
+      text-align: center;
+    }
+    .result-success .tag {
+      display: inline-block;
+      background: var(--green);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .result-success .label-text {
+      font-size: 12px;
+      color: #4A7A68;
+      margin-bottom: 6px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .tracking-number {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(22px, 6vw, 32px);
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 3px;
+      word-break: break-all;
+    }
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      background: none;
+      border: 1.5px solid #A8DBCA;
+      color: var(--green);
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: rgba(30,138,94,0.08); }
+    .copy-btn svg { flex-shrink: 0; }
+
+    .result-error {
+      background: #FDF2F2;
+      border: 1.5px solid #F0BEBE;
+      border-radius: 12px;
+      padding: 22px;
+      text-align: center;
+    }
+    .result-error .icon { font-size: 28px; margin-bottom: 8px; }
+    .result-error p { font-size: 14px; color: #8B3A3A; line-height: 1.6; }
+    .result-error strong { color: var(--red); }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--gray200);
+      margin: 24px 0;
+    }
+
+    /* ── Footer note ── */
+    .footer-note {
+      font-size: 12px;
+      color: var(--gray500);
+      text-align: center;
+      line-height: 1.7;
+    }
+    .footer-note a { color: var(--blue); text-decoration: none; }
+
+    /* ── Bottom footer ── */
+    footer {
+      background: var(--navy);
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--navy);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform 0.25s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px; border-radius: 12px; }
+      .hero { padding: 36px 16px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="header-badge">CPA</span>
+  <span>Center for Professional Assessment (Thailand)</span>
+</header>
+
+<div class="hero">
+  <div class="hero-label">TOEIC® TRACKING</div>
+  <h1>ตรวจสอบเลข Tracking</h1>
+  <p>กรอกข้อมูลเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ</p>
+</div>
+
+<div class="card-wrap">
+  <div class="card">
+
+    <div class="field">
+      <label for="id-card">เลขบัตรประชาชน <span class="sub">13 หลัก</span></label>
+      <input
+        type="text"
+        id="id-card"
+        placeholder="x-xxxx-xxxxx-xx-x"
+        maxlength="13"
+        inputmode="numeric"
+      />
+      <div class="field-hint">ไม่ต้องใส่ขีด</div>
+    </div>
+
+    <div class="field">
+      <label for="exam-date">วันที่สอบ</label>
+      <input type="date" id="exam-date" />
+    </div>
+
+    <button class="btn-search" id="btn-search" onclick="handleSearch()">
+      ค้นหาเลข Tracking
+      <span class="spinner"></span>
+    </button>
+
+    <div id="result"></div>
+
+    <div class="divider"></div>
+
+    <div class="footer-note">
+      หากไม่พบข้อมูล กรุณาติดต่อเจ้าหน้าที่<br />
+      โทร. <a href="tel:021234567">02-123-4567</a> หรือ
+      <a href="mailto:info@cpa-th.com">info@cpa-th.com</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  © 2025 Center for Professional Assessment (Thailand). All rights reserved.
+</footer>
+
+<div class="toast" id="toast">คัดลอกแล้ว ✓</div>
+
+<script>
+  // ══════════════════════════════════════════════
+  //  MOCK DATA — แทนที่ด้วย API call จริงทีหลัง
+  //  โครงสร้าง: { "idcard_examdate": "TRACKING_NUMBER" }
+  // ══════════════════════════════════════════════
+  const MOCK_DATA = {
+    "1100100000001_2025-06-15": "TH2506150001",
+    "1100100000002_2025-06-15": "TH2506150002",
+    "1234567890123_2025-07-20": "TH2507200088",
+    "9876543210987_2025-06-28": "TH2506280045",
+  };
+
+  // ── ฟังก์ชันค้นหา ──
+  async function handleSearch() {
+    const idInput   = document.getElementById('id-card');
+    const dateInput = document.getElementById('exam-date');
+    const btn       = document.getElementById('btn-search');
+    const resultEl  = document.getElementById('result');
+
+    // Reset
+    idInput.classList.remove('error');
+    dateInput.classList.remove('error');
+    resultEl.style.display = 'none';
+
+    const idVal   = idInput.value.trim().replace(/[-\s]/g, '');
+    const dateVal = dateInput.value;
+
+    // Validate
+    let hasError = false;
+    if (!/^\d{13}$/.test(idVal)) {
+      idInput.classList.add('error');
+      hasError = true;
+    }
+    if (!dateVal) {
+      dateInput.classList.add('error');
+      hasError = true;
+    }
+    if (hasError) return;
+
+    // Loading state
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.childNodes[0].textContent = 'กำลังค้นหา...';
+
+    // Simulate async lookup (replace with fetch() to real API)
+    await new Promise(r => setTimeout(r, 900));
+    const key = `${idVal}_${dateVal}`;
+    const tracking = lookupTracking(idVal, dateVal);
+
+    // Restore button
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.childNodes[0].textContent = 'ค้นหาเลข Tracking';
+
+    // Show result
+    resultEl.style.display = 'block';
+    if (tracking) {
+      resultEl.innerHTML = `
+        <div class="result-success">
+          <div class="tag">พบข้อมูล</div>
+          <div class="label-text">หมายเลข TRACKING</div>
+          <div class="tracking-number" id="tracking-val">${tracking}</div>
+          <button class="copy-btn" onclick="copyTracking('${tracking}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            คัดลอกเลข
+          </button>
+        </div>`;
+    } else {
+      resultEl.innerHTML = `
+        <div class="result-error">
+          <div class="icon">🔍</div>
+          <p>ไม่พบข้อมูลที่ตรงกัน<br />
+          กรุณาตรวจสอบ <strong>เลขบัตรประชาชน</strong> และ <strong>วันที่สอบ</strong> อีกครั้ง</p>
+        </div>`;
+    }
+  }
+
+  // ── Lookup logic ──
+  // แทนที่ฟังก์ชันนี้ด้วย fetch() ไป API จริง
+  function lookupTracking(idcard, examDate) {
+    const key = `${idcard}_${examDate}`;
+    return MOCK_DATA[key] || null;
+  }
+
+  // ── Copy to clipboard ──
+  function copyTracking(text) {
+    navigator.clipboard.writeText(text).then(() => showToast());
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // ── Enter key shortcut ──
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSearch();
+  });
+
+  // ── Auto-format ID card (optional visual dash) ──
+  document.getElementById('id-card').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 13);
+    this.classList.remove('error');
+  });
+  document.getElementById('exam-date').addEventListener('change', function() {
+    this.classList.remove('error');
+  });
+</script>
+</body>
+</html>
