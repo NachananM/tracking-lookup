@@ -32,7 +32,6 @@
       flex-direction: column;
     }
 
-    /* ── Header bar ── */
     header {
       background: var(--navy);
       padding: 0 24px;
@@ -56,7 +55,6 @@
       font-weight: 300;
     }
 
-    /* ── Hero ── */
     .hero {
       background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 100%);
       padding: 48px 24px 40px;
@@ -85,7 +83,6 @@
       font-weight: 300;
     }
 
-    /* ── Card ── */
     .card-wrap {
       display: flex;
       justify-content: center;
@@ -101,8 +98,15 @@
       padding: 32px 28px;
     }
 
-    /* ── Form ── */
     .field { margin-bottom: 20px; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .field-row .field { margin-bottom: 0; }
+
     label {
       display: block;
       font-size: 13px;
@@ -148,7 +152,17 @@
       margin-top: 5px;
     }
 
-    /* ── Button ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--gray500);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gray200);
+    }
+
     .btn-search {
       width: 100%;
       background: var(--blue);
@@ -168,7 +182,6 @@
     .btn-search:active { transform: scale(0.98); }
     .btn-search:disabled { background: var(--gray200); color: var(--gray500); cursor: not-allowed; transform: none; }
 
-    /* ── Spinner ── */
     .spinner {
       display: none;
       width: 18px; height: 18px;
@@ -181,7 +194,6 @@
     .btn-search.loading .spinner { display: block; }
     @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 
-    /* ── Result ── */
     #result { margin-top: 24px; display: none; }
 
     .result-success {
@@ -200,22 +212,39 @@
       letter-spacing: 1.5px;
       padding: 3px 10px;
       border-radius: 20px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-    .result-success .label-text {
-      font-size: 12px;
+    .result-row {
+      margin-bottom: 16px;
+    }
+    .result-row:last-of-type { margin-bottom: 0; }
+    .result-row .label-text {
+      font-size: 11px;
       color: #4A7A68;
-      margin-bottom: 6px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
     }
     .tracking-number {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(22px, 6vw, 32px);
+      font-size: clamp(22px, 6vw, 30px);
       font-weight: 600;
       color: var(--navy);
       letter-spacing: 3px;
       word-break: break-all;
+    }
+    .dispatch-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 1px;
+    }
+    .result-divider {
+      height: 1px;
+      background: #A8DBCA;
+      margin: 16px 0;
     }
     .copy-btn {
       display: inline-flex;
@@ -234,7 +263,6 @@
       transition: background 0.15s;
     }
     .copy-btn:hover { background: rgba(30,138,94,0.08); }
-    .copy-btn svg { flex-shrink: 0; }
 
     .result-error {
       background: #FDF2F2;
@@ -247,14 +275,12 @@
     .result-error p { font-size: 14px; color: #8B3A3A; line-height: 1.6; }
     .result-error strong { color: var(--red); }
 
-    /* ── Divider ── */
     .divider {
       height: 1px;
       background: var(--gray200);
       margin: 24px 0;
     }
 
-    /* ── Footer note ── */
     .footer-note {
       font-size: 12px;
       color: var(--gray500);
@@ -263,7 +289,6 @@
     }
     .footer-note a { color: var(--blue); text-decoration: none; }
 
-    /* ── Bottom footer ── */
     footer {
       background: var(--navy);
       padding: 16px 24px;
@@ -272,7 +297,6 @@
       color: rgba(255,255,255,0.35);
     }
 
-    /* ── Toast ── */
     .toast {
       position: fixed;
       bottom: 24px; left: 50%;
@@ -292,6 +316,7 @@
     @media (max-width: 480px) {
       .card { padding: 24px 18px; border-radius: 12px; }
       .hero { padding: 36px 16px 32px; }
+      .field-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -305,22 +330,29 @@
 <div class="hero">
   <div class="hero-label">TOEIC® TRACKING</div>
   <h1>ตรวจสอบเลข Tracking</h1>
-  <p>กรอกข้อมูลเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ</p>
+  <p>กรอกข้อมูลให้ครบเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ</p>
 </div>
 
 <div class="card-wrap">
   <div class="card">
 
+    <div class="section-label">ข้อมูลผู้สมัครสอบ</div>
+
     <div class="field">
       <label for="id-card">เลขบัตรประชาชน <span class="sub">13 หลัก</span></label>
-      <input
-        type="text"
-        id="id-card"
-        placeholder="x-xxxx-xxxxx-xx-x"
-        maxlength="13"
-        inputmode="numeric"
-      />
+      <input type="text" id="id-card" placeholder="x-xxxx-xxxxx-xx-x" maxlength="13" inputmode="numeric" />
       <div class="field-hint">ไม่ต้องใส่ขีด</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="first-name">ชื่อ <span class="sub">ภาษาอังกฤษ</span></label>
+        <input type="text" id="first-name" placeholder="JOHN" />
+      </div>
+      <div class="field">
+        <label for="last-name">นามสกุล <span class="sub">ภาษาอังกฤษ</span></label>
+        <input type="text" id="last-name" placeholder="DOE" />
+      </div>
     </div>
 
     <div class="field">
@@ -353,111 +385,123 @@
 <div class="toast" id="toast">คัดลอกแล้ว ✓</div>
 
 <script>
-  // ══════════════════════════════════════════════
-  //  MOCK DATA — แทนที่ด้วย API call จริงทีหลัง
-  //  โครงสร้าง: { "idcard_examdate": "TRACKING_NUMBER" }
-  // ══════════════════════════════════════════════
-  const MOCK_DATA = {
-    "1100100000001_2025-06-15": "TH2506150001",
-    "1100100000002_2025-06-15": "TH2506150002",
-    "1234567890123_2025-07-20": "TH2507200088",
-    "9876543210987_2025-06-28": "TH2506280045",
-  };
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbysX078Mw_K3ImUbYsADnwzEsgKGuIbjukAMq87--ptUxWolAuI_Q9lpQ7FP38Rlws/exec';
 
-  // ── ฟังก์ชันค้นหา ──
   async function handleSearch() {
-    const idInput   = document.getElementById('id-card');
-    const dateInput = document.getElementById('exam-date');
-    const btn       = document.getElementById('btn-search');
-    const resultEl  = document.getElementById('result');
+    const idInput    = document.getElementById('id-card');
+    const firstInput = document.getElementById('first-name');
+    const lastInput  = document.getElementById('last-name');
+    const dateInput  = document.getElementById('exam-date');
+    const btn        = document.getElementById('btn-search');
+    const resultEl   = document.getElementById('result');
 
-    // Reset
-    idInput.classList.remove('error');
-    dateInput.classList.remove('error');
+    // Reset errors
+    [idInput, firstInput, lastInput, dateInput].forEach(el => el.classList.remove('error'));
     resultEl.style.display = 'none';
 
-    const idVal   = idInput.value.trim().replace(/[-\s]/g, '');
-    const dateVal = dateInput.value;
+    const idVal    = idInput.value.trim().replace(/[-\s]/g, '');
+    const firstName = firstInput.value.trim().toUpperCase();
+    const lastName  = lastInput.value.trim().toUpperCase();
+    const dateVal  = dateInput.value;
 
     // Validate
     let hasError = false;
-    if (!/^\d{13}$/.test(idVal)) {
-      idInput.classList.add('error');
-      hasError = true;
-    }
-    if (!dateVal) {
-      dateInput.classList.add('error');
-      hasError = true;
-    }
+    if (!/^\d{13}$/.test(idVal))  { idInput.classList.add('error');    hasError = true; }
+    if (!firstName)                { firstInput.classList.add('error'); hasError = true; }
+    if (!lastName)                 { lastInput.classList.add('error');  hasError = true; }
+    if (!dateVal)                  { dateInput.classList.add('error');  hasError = true; }
     if (hasError) return;
 
-    // Loading state
+    // Loading
     btn.disabled = true;
     btn.classList.add('loading');
     btn.childNodes[0].textContent = 'กำลังค้นหา...';
 
-    // Simulate async lookup (replace with fetch() to real API)
-    await new Promise(r => setTimeout(r, 900));
-    const key = `${idVal}_${dateVal}`;
-    const tracking = lookupTracking(idVal, dateVal);
+    try {
+      const params = new URLSearchParams({
+        id_card:    idVal,
+        first_name: firstName,
+        last_name:  lastName,
+        exam_date:  dateVal
+      });
+
+      const res  = await fetch(`${GAS_URL}?${params}`);
+      const data = await res.json();
+
+      resultEl.style.display = 'block';
+
+      if (data.status === 'found') {
+        const dispatchText = data.dispatch_date && data.dispatch_date !== '-'
+          ? formatDate(data.dispatch_date)
+          : 'รอดำเนินการ';
+
+        resultEl.innerHTML = `
+          <div class="result-success">
+            <div class="tag">พบข้อมูล</div>
+            <div class="result-row">
+              <div class="label-text">หมายเลข TRACKING</div>
+              <div class="tracking-number">${data.tracking}</div>
+            </div>
+            <div class="result-divider"></div>
+            <div class="result-row">
+              <div class="label-text">วันที่ส่งออก</div>
+              <div class="dispatch-value">${dispatchText}</div>
+            </div>
+            <button class="copy-btn" onclick="copyTracking('${data.tracking}')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              คัดลอกเลข Tracking
+            </button>
+          </div>`;
+      } else {
+        resultEl.innerHTML = `
+          <div class="result-error">
+            <div class="icon">🔍</div>
+            <p>ไม่พบข้อมูลที่ตรงกัน<br />
+            กรุณาตรวจสอบ <strong>ชื่อ-นามสกุล</strong> เลขบัตรประชาชน และวันที่สอบอีกครั้ง</p>
+          </div>`;
+      }
+    } catch (err) {
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = `
+        <div class="result-error">
+          <div class="icon">⚠️</div>
+          <p>เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p>
+        </div>`;
+    }
 
     // Restore button
     btn.disabled = false;
     btn.classList.remove('loading');
     btn.childNodes[0].textContent = 'ค้นหาเลข Tracking';
-
-    // Show result
-    resultEl.style.display = 'block';
-    if (tracking) {
-      resultEl.innerHTML = `
-        <div class="result-success">
-          <div class="tag">พบข้อมูล</div>
-          <div class="label-text">หมายเลข TRACKING</div>
-          <div class="tracking-number" id="tracking-val">${tracking}</div>
-          <button class="copy-btn" onclick="copyTracking('${tracking}')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
-            คัดลอกเลข
-          </button>
-        </div>`;
-    } else {
-      resultEl.innerHTML = `
-        <div class="result-error">
-          <div class="icon">🔍</div>
-          <p>ไม่พบข้อมูลที่ตรงกัน<br />
-          กรุณาตรวจสอบ <strong>เลขบัตรประชาชน</strong> และ <strong>วันที่สอบ</strong> อีกครั้ง</p>
-        </div>`;
-    }
   }
 
-  // ── Lookup logic ──
-  // แทนที่ฟังก์ชันนี้ด้วย fetch() ไป API จริง
-  function lookupTracking(idcard, examDate) {
-    const key = `${idcard}_${examDate}`;
-    return MOCK_DATA[key] || null;
+  function formatDate(dateStr) {
+    const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    const [y, m, d] = dateStr.split('-');
+    return `${parseInt(d)} ${months[parseInt(m)-1]} ${parseInt(y)+543}`;
   }
 
-  // ── Copy to clipboard ──
   function copyTracking(text) {
-    navigator.clipboard.writeText(text).then(() => showToast());
+    navigator.clipboard.writeText(text).then(() => {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    });
   }
 
-  function showToast() {
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
-  }
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') handleSearch(); });
 
-  // ── Enter key shortcut ──
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleSearch();
-  });
-
-  // ── Auto-format ID card (optional visual dash) ──
   document.getElementById('id-card').addEventListener('input', function() {
     this.value = this.value.replace(/\D/g, '').slice(0, 13);
     this.classList.remove('error');
+  });
+  ['first-name','last-name'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+      this.classList.remove('error');
+    });
   });
   document.getElementById('exam-date').addEventListener('change', function() {
     this.classList.remove('error');
