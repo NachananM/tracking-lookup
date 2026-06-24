@@ -300,7 +300,7 @@
     }
     .result-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      flex-direction: column;
       gap: 16px;
     }
     .result-item .item-label {
@@ -317,7 +317,9 @@
       font-weight: 600;
       color: var(--red-dark);
       letter-spacing: 2px;
-      word-break: break-all;
+      word-break: keep-all;
+      white-space: nowrap;
+      overflow-x: auto;
     }
     .result-item .dispatch-val {
       font-family: 'IBM Plex Mono', monospace;
@@ -485,7 +487,7 @@
     <!-- ✏️ แก้ข้อความหมายเหตุตรงนี้ได้เลย -->
     <div class="notice-banner" style="max-width:100%;margin-bottom:18px;">
       <div class="notice-banner-head">
-        <span>📋 หมายเหตุ / Notice</span>
+        <span>หมายเหตุ / Notice</span>
       </div>
       <div class="notice-banner-body">
         <p>
@@ -505,9 +507,6 @@
 
 <!-- Footer -->
 <footer>
-  <div class="footer-logo">
-    <img src="https://cpathailand.co.th/wp-content/uploads/2021/11/logo-cpa-header1.png" alt="CPA Thailand" />
-  </div>
   <div class="footer-copy">
     © 2026 Center for Professional Assessment (Thailand). All rights reserved.<br />
     ETS, TOEIC are registered trademarks of ETS, used under license in Thailand.
