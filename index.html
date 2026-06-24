@@ -10,16 +10,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:   #1A2744;
-      --blue:   #2756A8;
-      --sky:    #E8F0FB;
-      --gold:   #C8993A;
+      --navy:   #6B1212;
+      --blue:   #8B1A1A;
+      --sky:    #FAF0F0;
+      --gold:   #A52020;
       --white:  #FFFFFF;
       --gray50: #F7F8FA;
       --gray200:#E2E6EE;
       --gray500:#8C96A8;
-      --gray800:#2D3748;
-      --red:    #D94040;
+      --gray800:#2D2D2D;
+      --red:    #C0392B;
       --green:  #1E8A5E;
     }
 
@@ -33,7 +33,8 @@
     }
 
     header {
-      background: var(--navy);
+      background: #FFFFFF;
+      border-bottom: 2px solid #8B1A1A;
       padding: 0 24px;
       height: 56px;
       display: flex;
@@ -56,7 +57,7 @@
     }
 
     .hero {
-      background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 100%);
+      background: linear-gradient(160deg, #4A0A0A 0%, #8B1A1A 100%);
       padding: 48px 24px 40px;
       text-align: center;
     }
@@ -92,7 +93,7 @@
     .card {
       background: var(--white);
       border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(26,39,68,0.10);
+      box-shadow: 0 4px 24px rgba(107,18,18,0.10);
       width: 100%;
       max-width: 480px;
       padding: 32px 28px;
@@ -139,7 +140,7 @@
     input[type="text"]:focus,
     input[type="date"]:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(39,86,168,0.12);
+      box-shadow: 0 0 0 3px rgba(139,26,26,0.12);
     }
     input[type="text"].error,
     input[type="date"].error {
@@ -178,7 +179,7 @@
       margin-top: 4px;
       position: relative;
     }
-    .btn-search:hover { background: #1F449B; }
+    .btn-search:hover { background: #7A1010; }
     .btn-search:active { transform: scale(0.98); }
     .btn-search:disabled { background: var(--gray200); color: var(--gray500); cursor: not-allowed; transform: none; }
 
@@ -323,12 +324,18 @@
 <body>
 
 <header>
-  <span class="header-badge">CPA</span>
-  <span>Center for Professional Assessment (Thailand)</span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlL0U2PIgQ6UVn9C2mhB8HXaf63qBx_OYxdQ&s"
+         alt="CPA Thailand" style="height:40px;object-fit:contain;" />
+  </div>
+  <div style="margin-left:auto;">
+    <img src="https://perpignan.alfmed.com/wp-content/uploads/2025/03/TOEIC-logo-green.png"
+         alt="TOEIC" style="height:28px;object-fit:contain;" />
+  </div>
 </header>
 
 <div class="hero">
-  <div class="hero-label">TOEIC® TRACKING</div>
+  <div class="hero-label">TOEIC® TRACKING LOOKUP</div>
   <h1>ตรวจสอบเลข Tracking</h1>
   <p>กรอกข้อมูลให้ครบเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ</p>
 </div>
@@ -385,7 +392,7 @@
 <div class="toast" id="toast">คัดลอกแล้ว ✓</div>
 
 <script>
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbysX078Mw_K3ImUbYsADnwzEsgKGuIbjukAMq87--ptUxWolAuI_Q9lpQ7FP38Rlws/exec';
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwfnyVN24GTaZ02t6f2lS3_22vtq9aCRg5rZkzk5OHL5EdStElsoR6mBpaPlNi2Az-/exec';
 
   async function handleSearch() {
     const idInput    = document.getElementById('id-card');
