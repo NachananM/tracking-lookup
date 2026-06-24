@@ -517,18 +517,20 @@
 <div class="toast" id="toast">คัดลอกแล้ว ✓</div>
 
 <script>
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwfnyVN24GTaZ02t6f2lS3_22vtq9aCRg5rZkzk5OHL5EdStElsoR6mBpaPlNi2Az-/exec';
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbypvvN_XroZfiRBVZByNcQKAjgS3TENB-pFaSJkWJfPWeQlJR2_Nv5yYiOX5jBI6gA/exec';
 
-  async function handleSearch() {
+  let _btn, _resultEl;
+
+  function handleSearch() {
     const idInput    = document.getElementById('id-card');
     const firstInput = document.getElementById('first-name');
     const lastInput  = document.getElementById('last-name');
     const dateInput  = document.getElementById('exam-date');
-    const btn        = document.getElementById('btn-search');
-    const resultEl   = document.getElementById('result');
+    _btn      = document.getElementById('btn-search');
+    _resultEl = document.getElementById('result');
 
     [idInput, firstInput, lastInput, dateInput].forEach(el => el.classList.remove('error'));
-    resultEl.style.display = 'none';
+    _resultEl.style.display = 'none';
 
     const idVal     = idInput.value.trim().replace(/[-\s]/g, '');
     const firstName = firstInput.value.trim().toUpperCase();
@@ -542,20 +544,29 @@
     if (!dateVal)                  { dateInput.classList.add('error');  hasError = true; }
     if (hasError) return;
 
-    btn.disabled = true;
-    btn.classList.add('loading');
-    btn.childNodes[0].textContent = 'กำลังค้นหา...';
+    _btn.disabled = true;
+    _btn.classList.add('loading');
+    _btn.childNodes[0].textContent = 'กำลังค้นหา...';
 
-    try {
-      const params = new URLSearchParams({ id_card: idVal, first_name: firstName, last_name: lastName, exam_date: dateVal });
-      const res    = await fetch(`${GAS_URL}?${params}`);
-      const data   = await res.json();
-      resultEl.style.display = 'block';
+    // JSONP — ข้าม CORS ได้เลย
+    const cbName = 'gasCallback_' + Date.now();
+    const params = new URLSearchParams({
+      id_card: idVal, first_name: firstName,
+      last_name: lastName, exam_date: dateVal,
+      callback: cbName
+    });
+
+    window[cbName] = function(data) {
+      // cleanup
+      delete window[cbName];
+      document.getElementById('jsonp-script')?.remove();
+
+      _resultEl.style.display = 'block';
 
       if (data.status === 'found') {
         const dispatchText = data.dispatch_date && data.dispatch_date !== '-'
           ? formatDate(data.dispatch_date) : 'รอดำเนินการ';
-        resultEl.innerHTML = `
+        _resultEl.innerHTML = `
           <div class="result-success">
             <div class="result-tag">✓ พบข้อมูล</div>
             <div class="result-grid">
@@ -575,20 +586,37 @@
               คัดลอกเลข Tracking
             </button>
           </div>`;
-      } else {
-        resultEl.innerHTML = `
+      } else if (data.status === 'not_found') {
+        _resultEl.innerHTML = `
           <div class="result-error">
             <p>⚠️ <strong>ไม่พบข้อมูล</strong> — กรุณาตรวจสอบ <strong>เลขบัตรประชาชน</strong>, <strong>ชื่อ-นามสกุล</strong> และ <strong>วันที่สอบ</strong> อีกครั้ง</p>
           </div>`;
+      } else {
+        _resultEl.innerHTML = `<div class="result-error"><p>⚠️ เกิดข้อผิดพลาด: ${data.message || 'กรุณาลองใหม่'}</p></div>`;
       }
-    } catch (err) {
-      resultEl.style.display = 'block';
-      resultEl.innerHTML = `<div class="result-error"><p>⚠️ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p></div>`;
-    }
 
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    btn.childNodes[0].textContent = 'ค้นหาเลข EMS Tracking';
+      _btn.disabled = false;
+      _btn.classList.remove('loading');
+      _btn.childNodes[0].textContent = 'ค้นหาเลข EMS Tracking';
+    };
+
+    // timeout กรณี GAS ไม่ตอบกลับ
+    setTimeout(() => {
+      if (window[cbName]) {
+        delete window[cbName];
+        document.getElementById('jsonp-script')?.remove();
+        _resultEl.style.display = 'block';
+        _resultEl.innerHTML = `<div class="result-error"><p>⚠️ หมดเวลาเชื่อมต่อ กรุณาลองใหม่อีกครั้ง</p></div>`;
+        _btn.disabled = false;
+        _btn.classList.remove('loading');
+        _btn.childNodes[0].textContent = 'ค้นหาเลข EMS Tracking';
+      }
+    }, 10000);
+
+    const script = document.createElement('script');
+    script.id  = 'jsonp-script';
+    script.src = `${GAS_URL}?${params}`;
+    document.body.appendChild(script);
   }
 
   function formatDate(dateStr) {
