@@ -3,108 +3,200 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตรวจสอบเลข Tracking — CPA Thailand</title>
+  <title>EMS Tracking — CPA Thailand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:   #6B1212;
-      --blue:   #8B1A1A;
-      --sky:    #FAF0F0;
-      --gold:   #A52020;
-      --white:  #FFFFFF;
-      --gray50: #F7F8FA;
-      --gray200:#E2E6EE;
-      --gray500:#8C96A8;
-      --gray800:#2D2D2D;
-      --red:    #C0392B;
-      --green:  #1E8A5E;
+      --red:      #8B1A1A;
+      --red-dark: #6B1212;
+      --red-light:#FAF0F0;
+      --white:    #FFFFFF;
+      --gray-bg:  #F5F5F5;
+      --gray-line:#DEDEDE;
+      --gray-text:#666666;
+      --text:     #333333;
+      --green:    #2D7A5E;
     }
 
     body {
       font-family: 'Sarabun', sans-serif;
-      background: var(--gray50);
-      color: var(--gray800);
+      background: var(--gray-bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      font-size: 15px;
     }
 
-    header {
-      background: #FFFFFF;
-      border-bottom: 2px solid #8B1A1A;
-      padding: 0 24px;
-      height: 56px;
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--red-dark);
+      padding: 6px 32px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+    }
+    .topbar a {
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+      text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 5px;
+      transition: color 0.15s;
     }
-    .header-badge {
-      background: var(--gold);
-      color: var(--white);
-      font-size: 10px;
+    .topbar a:hover { color: #fff; }
+
+    /* ── Header ── */
+    header {
+      background: var(--white);
+      border-bottom: 3px solid var(--red);
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-left img.logo-cpa {
+      height: 52px;
+      object-fit: contain;
+    }
+    .header-left .brand-text {
+      border-left: 2px solid var(--gray-line);
+      padding-left: 14px;
+    }
+    .header-left .brand-text .name {
+      color: var(--red);
+      font-size: 15px;
       font-weight: 700;
-      letter-spacing: 1.5px;
-      padding: 3px 8px;
-      border-radius: 3px;
+      line-height: 1.2;
     }
-    header span {
-      color: rgba(255,255,255,0.55);
-      font-size: 13px;
+    .header-left .brand-text .sub {
+      color: var(--gray-text);
+      font-size: 11px;
       font-weight: 300;
     }
+    .header-right img.logo-toeic {
+      height: 30px;
+      object-fit: contain;
+    }
 
-    .hero {
-      background: linear-gradient(160deg, #4A0A0A 0%, #8B1A1A 100%);
-      padding: 48px 24px 40px;
+    /* ── Page title band ── */
+    .page-band {
+      background: var(--red);
+      padding: 28px 32px 0;
       text-align: center;
     }
-    .hero-label {
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.7);
-      font-size: 11px;
-      letter-spacing: 2px;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 16px;
-    }
-    .hero h1 {
-      color: var(--white);
-      font-size: clamp(22px, 5vw, 32px);
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
-    .hero p {
+    .page-band .breadcrumb {
+      font-size: 12px;
       color: rgba(255,255,255,0.6);
-      font-size: 14px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .page-band h1 {
+      color: var(--white);
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .page-band .subtitle {
+      color: rgba(255,255,255,0.7);
+      font-size: 13.5px;
       font-weight: 300;
+      margin-bottom: 24px;
     }
 
-    .card-wrap {
+    /* ── Notice banner in band ── */
+    .notice-banner {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+    }
+    .notice-banner-head {
+      background: var(--red-dark);
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notice-banner-head span {
+      color: rgba(255,255,255,0.9);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+    .notice-banner-body {
+      padding: 12px 16px;
+      border: 1px solid var(--gray-line);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+    }
+    /* ✏️ แก้ข้อความหมายเหตุตรงนี้ */
+    .notice-banner-body p {
+      color: var(--red-dark);
+      font-size: 13px;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
       display: flex;
       justify-content: center;
       padding: 32px 16px 48px;
-      flex: 1;
-    }
-    .card {
-      background: var(--white);
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(107,18,18,0.10);
-      width: 100%;
-      max-width: 480px;
-      padding: 32px 28px;
     }
 
-    .field { margin-bottom: 20px; }
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-line);
+      border-top: 3px solid var(--red);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 560px;
+      padding: 28px 28px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gray-line);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 16px;
+      background: var(--red);
+      border-radius: 2px;
+    }
+
+    /* ── Form ── */
+    .field { margin-bottom: 18px; }
     .field-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 14px;
+      margin-bottom: 18px;
     }
     .field-row .field { margin-bottom: 0; }
 
@@ -112,140 +204,126 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: var(--navy);
+      color: var(--text);
       margin-bottom: 6px;
-      letter-spacing: 0.2px;
     }
-    label .sub {
-      font-weight: 300;
-      color: var(--gray500);
+    label .req { color: var(--red); margin-left: 2px; }
+    label .hint-inline {
+      font-weight: 400;
+      color: var(--gray-text);
       font-size: 12px;
       margin-left: 4px;
     }
+
     input[type="text"],
     input[type="date"] {
       width: 100%;
-      padding: 12px 14px;
-      border: 1.5px solid var(--gray200);
-      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
       font-family: 'Sarabun', sans-serif;
-      font-size: 15px;
-      color: var(--gray800);
+      font-size: 14px;
+      color: var(--text);
       background: var(--white);
-      transition: border-color 0.18s, box-shadow 0.18s;
+      transition: border-color 0.15s, box-shadow 0.15s;
       outline: none;
       -webkit-appearance: none;
     }
-    input[type="text"]::placeholder { color: var(--gray500); font-size: 14px; }
-    input[type="text"]:focus,
-    input[type="date"]:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(139,26,26,0.12);
-    }
-    input[type="text"].error,
-    input[type="date"].error {
+    input::placeholder { color: #AAAAAA; }
+    input:focus {
       border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(217,64,64,0.10);
+      box-shadow: 0 0 0 2px rgba(139,26,26,0.10);
+    }
+    input.error {
+      border-color: #CC3333;
+      box-shadow: 0 0 0 2px rgba(204,51,51,0.10);
     }
     .field-hint {
       font-size: 11.5px;
-      color: var(--gray500);
-      margin-top: 5px;
+      color: var(--gray-text);
+      margin-top: 4px;
     }
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: var(--gray500);
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--gray200);
-    }
-
+    /* ── Button ── */
+    .btn-wrap { margin-top: 6px; }
     .btn-search {
       width: 100%;
-      background: var(--blue);
+      background: var(--red);
       color: var(--white);
       border: none;
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 3px;
+      padding: 13px;
       font-family: 'Sarabun', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.18s, transform 0.1s;
-      margin-top: 4px;
+      transition: background 0.15s;
       position: relative;
+      letter-spacing: 0.3px;
     }
-    .btn-search:hover { background: #7A1010; }
-    .btn-search:active { transform: scale(0.98); }
-    .btn-search:disabled { background: var(--gray200); color: var(--gray500); cursor: not-allowed; transform: none; }
-
+    .btn-search:hover { background: var(--red-dark); }
+    .btn-search:active { opacity: 0.92; }
+    .btn-search:disabled { background: #CCCCCC; cursor: not-allowed; }
     .spinner {
       display: none;
-      width: 18px; height: 18px;
-      border: 2.5px solid rgba(255,255,255,0.4);
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.35);
       border-top-color: #fff;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+      animation: spin 0.65s linear infinite;
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
     }
     .btn-search.loading .spinner { display: block; }
     @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 
-    #result { margin-top: 24px; display: none; }
+    /* ── Result ── */
+    #result { margin-top: 20px; display: none; }
 
     .result-success {
-      background: #EDF7F2;
-      border: 1.5px solid #A8DBCA;
-      border-radius: 12px;
-      padding: 24px 22px;
-      text-align: center;
+      border: 1px solid #B2DFCC;
+      border-left: 4px solid var(--green);
+      border-radius: 3px;
+      background: #F0FAF6;
+      padding: 20px 20px 20px 18px;
     }
-    .result-success .tag {
+    .result-tag {
       display: inline-block;
       background: var(--green);
       color: #fff;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 1.5px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      margin-bottom: 16px;
+      padding: 2px 10px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
     }
-    .result-row {
-      margin-bottom: 16px;
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
-    .result-row:last-of-type { margin-bottom: 0; }
-    .result-row .label-text {
-      font-size: 11px;
-      color: #4A7A68;
+    .result-item .item-label {
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 1px;
+      color: #3A7A60;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       margin-bottom: 4px;
     }
-    .tracking-number {
+    .result-item .tracking-val {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(22px, 6vw, 30px);
+      font-size: clamp(18px, 5vw, 26px);
       font-weight: 600;
-      color: var(--navy);
-      letter-spacing: 3px;
+      color: var(--red-dark);
+      letter-spacing: 2px;
       word-break: break-all;
     }
-    .dispatch-value {
+    .result-item .dispatch-val {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--navy);
-      letter-spacing: 1px;
-    }
-    .result-divider {
-      height: 1px;
-      background: #A8DBCA;
-      margin: 16px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
     }
     .copy-btn {
       display: inline-flex;
@@ -253,140 +331,187 @@
       gap: 6px;
       margin-top: 14px;
       background: none;
-      border: 1.5px solid #A8DBCA;
+      border: 1px solid #B2DFCC;
       color: var(--green);
-      border-radius: 8px;
-      padding: 7px 16px;
+      border-radius: 3px;
+      padding: 6px 14px;
       font-family: 'Sarabun', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.12s;
     }
-    .copy-btn:hover { background: rgba(30,138,94,0.08); }
+    .copy-btn:hover { background: rgba(45,122,94,0.07); }
 
     .result-error {
-      background: #FDF2F2;
-      border: 1.5px solid #F0BEBE;
-      border-radius: 12px;
-      padding: 22px;
-      text-align: center;
+      border: 1px solid #EEBEBE;
+      border-left: 4px solid #CC3333;
+      border-radius: 3px;
+      background: #FDF5F5;
+      padding: 16px 18px;
     }
-    .result-error .icon { font-size: 28px; margin-bottom: 8px; }
-    .result-error p { font-size: 14px; color: #8B3A3A; line-height: 1.6; }
-    .result-error strong { color: var(--red); }
-
-    .divider {
-      height: 1px;
-      background: var(--gray200);
-      margin: 24px 0;
-    }
-
-    .footer-note {
-      font-size: 12px;
-      color: var(--gray500);
-      text-align: center;
+    .result-error p {
+      color: #7A2020;
+      font-size: 14px;
       line-height: 1.7;
     }
-    .footer-note a { color: var(--blue); text-decoration: none; }
+    .result-error strong { color: #CC3333; }
 
-    footer {
-      background: var(--navy);
-      padding: 16px 24px;
+    /* ── Divider ── */
+    .divider { height: 1px; background: var(--gray-line); margin: 22px 0; }
+
+    /* ── Contact note ── */
+    .contact-note {
+      font-size: 12.5px;
+      color: var(--gray-text);
+      line-height: 1.8;
       text-align: center;
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
+    }
+    .contact-note a { color: var(--red); text-decoration: none; }
+    .contact-note a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      background: #2B2B2B;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    footer .footer-logo img { height: 32px; opacity: 0.85; }
+    footer .footer-copy {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      text-align: right;
     }
 
+    /* ── Toast ── */
     .toast {
       position: fixed;
       bottom: 24px; left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--navy);
+      transform: translateX(-50%) translateY(60px);
+      background: #2B2B2B;
       color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 9px 18px;
+      border-radius: 3px;
       font-size: 13px;
       font-weight: 600;
-      transition: transform 0.25s ease;
+      transition: transform 0.22s ease;
       pointer-events: none;
       z-index: 999;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    @media (max-width: 480px) {
-      .card { padding: 24px 18px; border-radius: 12px; }
-      .hero { padding: 36px 16px 32px; }
+    @media (max-width: 520px) {
+      header { padding: 10px 16px; }
+      .topbar { padding: 6px 16px; }
+      .page-band { padding: 24px 16px 0; }
+      .card { padding: 20px 16px 24px; }
       .field-row { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: 1fr; }
+      footer { padding: 16px; flex-direction: column; align-items: flex-start; }
+      footer .footer-copy { text-align: left; }
     }
   </style>
 </head>
 <body>
 
+<!-- Top bar -->
+<div class="topbar">
+  <a href="tel:022607061">📞 02-260-7061 ต่อ 101</a>
+  <a href="https://cpathailand.co.th" target="_blank">🌐 cpathailand.co.th</a>
+</div>
+
+<!-- Header -->
 <header>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlL0U2PIgQ6UVn9C2mhB8HXaf63qBx_OYxdQ&s"
-         alt="CPA Thailand" style="height:40px;object-fit:contain;" />
+  <div class="header-left">
+    <img class="logo-cpa" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlL0U2PIgQ6UVn9C2mhB8HXaf63qBx_OYxdQ&s" alt="CPA Thailand" />
+    <div class="brand-text">
+      <div class="name">CPA (Thailand)</div>
+      <div class="sub">Center for Professional Assessment</div>
+    </div>
   </div>
-  <div style="margin-left:auto;">
-    <img src="https://perpignan.alfmed.com/wp-content/uploads/2025/03/TOEIC-logo-green.png"
-         alt="TOEIC" style="height:28px;object-fit:contain;" />
+  <div class="header-right">
+    <img class="logo-toeic" src="https://perpignan.alfmed.com/wp-content/uploads/2025/03/TOEIC-logo-green.png" alt="TOEIC" />
   </div>
 </header>
 
-<div class="hero">
-  <div class="hero-label">TOEIC® TRACKING LOOKUP</div>
-  <h1>ตรวจสอบเลข Tracking</h1>
-  <p>กรอกข้อมูลให้ครบเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ</p>
+<!-- Page title band -->
+<div class="page-band">
+  <h1>ตรวจสอบเลข EMS Tracking</h1>
+  <p class="subtitle">กรอกข้อมูลเพื่อค้นหาเลข Tracking สำหรับติดตามผลสอบ TOEIC®</p>
+
 </div>
 
-<div class="card-wrap">
+<!-- Main -->
+<div class="main">
   <div class="card">
-
-    <div class="section-label">ข้อมูลผู้สมัครสอบ</div>
+    <div class="card-title">ข้อมูลผู้สอบ</div>
 
     <div class="field">
-      <label for="id-card">เลขบัตรประชาชน <span class="sub">13 หลัก</span></label>
+      <label for="id-card">เลขบัตรประชาชน <span class="req">*</span><span class="hint-inline">13 หลัก ไม่ต้องใส่ขีด</span></label>
       <input type="text" id="id-card" placeholder="x-xxxx-xxxxx-xx-x" maxlength="13" inputmode="numeric" />
-      <div class="field-hint">ไม่ต้องใส่ขีด</div>
     </div>
 
     <div class="field-row">
       <div class="field">
-        <label for="first-name">ชื่อ <span class="sub">ภาษาอังกฤษ</span></label>
-        <input type="text" id="first-name" placeholder="JOHN" />
+        <label for="first-name">ชื่อ (ภาษาอังกฤษ) <span class="req">*</span></label>
+        <input type="text" id="first-name" placeholder="FIRSTNAME" />
       </div>
       <div class="field">
-        <label for="last-name">นามสกุล <span class="sub">ภาษาอังกฤษ</span></label>
-        <input type="text" id="last-name" placeholder="DOE" />
+        <label for="last-name">นามสกุล (ภาษาอังกฤษ) <span class="req">*</span></label>
+        <input type="text" id="last-name" placeholder="LASTNAME" />
       </div>
     </div>
 
     <div class="field">
-      <label for="exam-date">วันที่สอบ</label>
+      <label for="exam-date">วันที่สอบ <span class="req">*</span></label>
       <input type="date" id="exam-date" />
     </div>
 
-    <button class="btn-search" id="btn-search" onclick="handleSearch()">
-      ค้นหาเลข Tracking
-      <span class="spinner"></span>
-    </button>
+    <div class="btn-wrap">
+      <button class="btn-search" id="btn-search" onclick="handleSearch()">
+        ค้นหาเลข EMS Tracking
+        <span class="spinner"></span>
+      </button>
+    </div>
 
     <div id="result"></div>
 
     <div class="divider"></div>
 
-    <div class="footer-note">
-      หากไม่พบข้อมูล กรุณาติดต่อเจ้าหน้าที่<br />
-      โทร. <a href="tel:021234567">02-123-4567</a> หรือ
-      <a href="mailto:info@cpa-th.com">info@cpa-th.com</a>
+    <!-- ✏️ แก้ข้อความหมายเหตุตรงนี้ได้เลย -->
+    <div class="notice-banner" style="max-width:100%;margin-bottom:18px;">
+      <div class="notice-banner-head">
+        <span>📋 หมายเหตุ / Notice</span>
+      </div>
+      <div class="notice-banner-body">
+        <p>
+          สามารถตรวจสอบเลข Tracking ได้ตั้งแต่วันที่ .......... เป็นต้นไป<br />
+          ภายใน .......... วันทำการ นับจากวันที่สอบ
+        </p>
+      </div>
     </div>
 
+    <div class="contact-note">
+      หากไม่พบข้อมูล กรุณาติดต่อ CPA Call Center<br />
+      โทร. <a href="tel:022607061">02-260-7061</a> ต่อ 101 &nbsp;|&nbsp;
+      อีเมล <a href="mailto:clientservices@cpathailand.co.th">clientservices@cpathailand.co.th</a>
+    </div>
   </div>
 </div>
 
+<!-- Footer -->
 <footer>
-  © 2025 Center for Professional Assessment (Thailand). All rights reserved.
+  <div class="footer-logo">
+    <img src="https://cpathailand.co.th/wp-content/uploads/2021/11/logo-cpa-header1.png" alt="CPA Thailand" />
+  </div>
+  <div class="footer-copy">
+    © 2026 Center for Professional Assessment (Thailand). All rights reserved.<br />
+    ETS, TOEIC are registered trademarks of ETS, used under license in Thailand.
+  </div>
 </footer>
 
 <div class="toast" id="toast">คัดลอกแล้ว ✓</div>
@@ -402,16 +527,14 @@
     const btn        = document.getElementById('btn-search');
     const resultEl   = document.getElementById('result');
 
-    // Reset errors
     [idInput, firstInput, lastInput, dateInput].forEach(el => el.classList.remove('error'));
     resultEl.style.display = 'none';
 
-    const idVal    = idInput.value.trim().replace(/[-\s]/g, '');
+    const idVal     = idInput.value.trim().replace(/[-\s]/g, '');
     const firstName = firstInput.value.trim().toUpperCase();
     const lastName  = lastInput.value.trim().toUpperCase();
-    const dateVal  = dateInput.value;
+    const dateVal   = dateInput.value;
 
-    // Validate
     let hasError = false;
     if (!/^\d{13}$/.test(idVal))  { idInput.classList.add('error');    hasError = true; }
     if (!firstName)                { firstInput.classList.add('error'); hasError = true; }
@@ -419,43 +542,34 @@
     if (!dateVal)                  { dateInput.classList.add('error');  hasError = true; }
     if (hasError) return;
 
-    // Loading
     btn.disabled = true;
     btn.classList.add('loading');
     btn.childNodes[0].textContent = 'กำลังค้นหา...';
 
     try {
-      const params = new URLSearchParams({
-        id_card:    idVal,
-        first_name: firstName,
-        last_name:  lastName,
-        exam_date:  dateVal
-      });
-
-      const res  = await fetch(`${GAS_URL}?${params}`);
-      const data = await res.json();
-
+      const params = new URLSearchParams({ id_card: idVal, first_name: firstName, last_name: lastName, exam_date: dateVal });
+      const res    = await fetch(`${GAS_URL}?${params}`);
+      const data   = await res.json();
       resultEl.style.display = 'block';
 
       if (data.status === 'found') {
         const dispatchText = data.dispatch_date && data.dispatch_date !== '-'
-          ? formatDate(data.dispatch_date)
-          : 'รอดำเนินการ';
-
+          ? formatDate(data.dispatch_date) : 'รอดำเนินการ';
         resultEl.innerHTML = `
           <div class="result-success">
-            <div class="tag">พบข้อมูล</div>
-            <div class="result-row">
-              <div class="label-text">หมายเลข TRACKING</div>
-              <div class="tracking-number">${data.tracking}</div>
-            </div>
-            <div class="result-divider"></div>
-            <div class="result-row">
-              <div class="label-text">วันที่ส่งออก</div>
-              <div class="dispatch-value">${dispatchText}</div>
+            <div class="result-tag">✓ พบข้อมูล</div>
+            <div class="result-grid">
+              <div class="result-item">
+                <div class="item-label">หมายเลข Tracking</div>
+                <div class="tracking-val">${data.tracking}</div>
+              </div>
+              <div class="result-item">
+                <div class="item-label">วันที่ส่งออก</div>
+                <div class="dispatch-val">${dispatchText}</div>
+              </div>
             </div>
             <button class="copy-btn" onclick="copyTracking('${data.tracking}')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
               </svg>
               คัดลอกเลข Tracking
@@ -464,24 +578,17 @@
       } else {
         resultEl.innerHTML = `
           <div class="result-error">
-            <div class="icon">🔍</div>
-            <p>ไม่พบข้อมูลที่ตรงกัน<br />
-            กรุณาตรวจสอบ <strong>ชื่อ-นามสกุล</strong> เลขบัตรประชาชน และวันที่สอบอีกครั้ง</p>
+            <p>⚠️ <strong>ไม่พบข้อมูล</strong> — กรุณาตรวจสอบ <strong>เลขบัตรประชาชน</strong>, <strong>ชื่อ-นามสกุล</strong> และ <strong>วันที่สอบ</strong> อีกครั้ง</p>
           </div>`;
       }
     } catch (err) {
       resultEl.style.display = 'block';
-      resultEl.innerHTML = `
-        <div class="result-error">
-          <div class="icon">⚠️</div>
-          <p>เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p>
-        </div>`;
+      resultEl.innerHTML = `<div class="result-error"><p>⚠️ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p></div>`;
     }
 
-    // Restore button
     btn.disabled = false;
     btn.classList.remove('loading');
-    btn.childNodes[0].textContent = 'ค้นหาเลข Tracking';
+    btn.childNodes[0].textContent = 'ค้นหาเลข EMS Tracking';
   }
 
   function formatDate(dateStr) {
