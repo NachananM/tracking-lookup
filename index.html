@@ -486,8 +486,8 @@
       </div>
       <div class="notice-banner-body">
         <p>
-          สามารถตรวจสอบเลข Tracking ได้ตั้งแต่วันที่ .......... เป็นต้นไป<br />
-          ภายใน .......... วันทำการ นับจากวันที่สอบ
+          สามารถตรวจสอบเลข Tracking ได้ 1 วันหลังจากวันที่ผลถูกส่งออก<br />
+          และตรวจสอบได้ภายใน 90 วันทำการ นับจากวันที่สอบ
         </p>
       </div>
     </div>
@@ -579,8 +579,8 @@
               </svg>
               คัดลอกเลข Tracking
             </button>
-            <a href="https://track.thailandpost.co.th" target="_blank" class="copy-btn" style="margin-left:8px;text-decoration:none;">
-             🌐 ติดตามที่ไปรษณีย์ไทย
+            <a href="https://track.thailandpost.co.th/?trackNumber=${data.tracking}" target="_blank" class="copy-btn" style="text-decoration:none;margin-left:8px;">
+            🌐 ติดตามที่ไปรษณีย์ไทย
             </a>
           </div>`;
       } else if (data.status === 'not_found') {
